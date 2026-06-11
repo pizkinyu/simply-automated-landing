@@ -202,7 +202,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 32px;
+      flex-wrap: nowrap;
+      gap: 24px;
     }
 
     .nav-logo {
@@ -211,25 +212,27 @@
       flex-shrink: 0;
     }
     .nav-logo img {
-      height: 48px;
+      height: 40px;
       width: auto;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 36px;
+      flex-wrap: nowrap;
+      gap: 28px;
     }
 
     .nav-link {
       font-family: var(--font-head);
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--white);
       position: relative;
       padding: 6px 0;
+      white-space: nowrap;
       transition: color 0.2s var(--ease);
     }
     .nav-link::after {
@@ -250,19 +253,21 @@
     .nav-cta {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-left: 8px;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+      gap: 12px;
     }
 
     .nav-login {
       font-family: var(--font-head);
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 9px 18px;
+      padding: 8px 16px;
       border: 1px solid var(--border);
       border-radius: 7px;
+      white-space: nowrap;
       transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
     }
     .nav-login:hover { border-color: var(--pink); color: var(--pink); }
@@ -270,13 +275,14 @@
     .nav-signup {
       font-family: var(--font-head);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 10px 20px;
+      padding: 9px 18px;
       background: var(--pink);
       color: var(--white);
       border-radius: 7px;
+      white-space: nowrap;
       transition: background 0.2s var(--ease);
     }
     .nav-signup:hover { background: var(--pink-dark); }
@@ -705,12 +711,15 @@
       .step:not(:last-child)::after { display: none; }
     }
 
-    @media (max-width: 768px) {
-      :root { --pad-x: 22px; --nav-h: 72px; }
-      .nav-logo img { height: 40px; }
+    @media (max-width: 1080px) {
       .nav-links,
       .nav-cta { display: none; }
       .nav-hamburger { display: block; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --pad-x: 22px; --nav-h: 72px; }
+      .nav-logo img { height: 36px; }
 
       .mobile-menu {
         position: fixed;
