@@ -268,9 +268,61 @@
       border: 1px solid var(--border);
       border-radius: 7px;
       white-space: nowrap;
+      background: transparent;
+      color: var(--white);
+      cursor: pointer;
       transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
     }
     .nav-login:hover { border-color: var(--pink); color: var(--pink); }
+
+    .login-dropdown { position: relative; }
+    .login-dropdown .caret {
+      display: inline-block;
+      margin-left: 6px;
+      font-size: 0.7em;
+      transition: transform 0.2s var(--ease);
+    }
+    .login-dropdown.open .caret { transform: rotate(180deg); }
+
+    .login-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--black-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      min-width: 200px;
+      box-shadow: 0 14px 32px -10px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px);
+      transition: opacity 0.18s var(--ease), transform 0.18s var(--ease), visibility 0s 0.18s;
+      z-index: 110;
+    }
+    .login-dropdown.open .login-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.18s var(--ease), transform 0.18s var(--ease), visibility 0s;
+    }
+    .login-menu a {
+      display: block;
+      padding: 10px 14px;
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: background 0.15s var(--ease), color 0.15s var(--ease);
+    }
+    .login-menu a:hover {
+      background: rgba(247, 85, 154, 0.12);
+      color: var(--pink);
+    }
 
     .nav-signup {
       font-family: var(--font-head);
@@ -717,7 +769,8 @@
 
     @media (max-width: 1080px) {
       .nav-links,
-      .nav-cta { display: none; }
+      .nav-cta,
+      .login-dropdown { display: none; }
       .nav-hamburger { display: block; }
       .mobile-menu.open {
         display: flex !important;
@@ -775,8 +828,16 @@
       </ul>
 
       <div class="nav-cta">
-        <a href="https://etsy.simplyautomated.co/login"  class="nav-login">Log In</a>
-        <a href="https://etsy.simplyautomated.co/signup" class="nav-signup">Sign Up</a>
+        <div class="login-dropdown">
+          <button type="button" class="nav-login" id="login-trigger" aria-haspopup="true" aria-expanded="false">
+            Log In <span class="caret">▾</span>
+          </button>
+          <div class="login-menu" id="login-menu" role="menu">
+            <a href="https://etsy.simplyautomated.co/login"    role="menuitem">Log In to Etsy</a>
+            <a href="https://shopify.simplyautomated.co/login" role="menuitem">Log In to Shopify</a>
+          </div>
+        </div>
+        <a href="#pricing" class="nav-signup">Sign Up</a>
       </div>
 
       <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">&#9776;</button>
@@ -788,8 +849,9 @@
       <a href="#how-it-works" class="nav-link">How It Works</a>
       <a href="#pricing"      class="nav-link">Pricing</a>
       <a href="#contact"      class="nav-link">Contact</a>
-      <a href="https://etsy.simplyautomated.co/login"  class="nav-login">Log In</a>
-      <a href="https://etsy.simplyautomated.co/signup" class="nav-signup">Sign Up</a>
+      <a href="https://etsy.simplyautomated.co/login"    class="nav-login">Log In to Etsy</a>
+      <a href="https://shopify.simplyautomated.co/login" class="nav-login">Log In to Shopify</a>
+      <a href="#pricing" class="nav-signup">Sign Up</a>
     </div>
   </header>
 
@@ -827,7 +889,7 @@
             Simply Automated securely bridges your store's data to deliver smart,
             automated search optimization directly to your inbox and your website.
           </p>
-          <a href="https://etsy.simplyautomated.co/signup" class="btn btn-primary">
+          <a href="#pricing" class="btn btn-primary">
             Get Started
           </a>
         </div>
@@ -976,7 +1038,7 @@
               pipeline, connect your store API, and configure your automated
               reporting dashboard.
             </p>
-            <a href="https://etsy.simplyautomated.co/signup" class="btn btn-primary">
+            <a href="https://shopify.simplyautomated.co/signup" class="btn btn-primary">
               Select DTC Plan
             </a>
           </div>
@@ -1078,6 +1140,30 @@
       hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
       mobileMenu.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+      });
+    }
+
+    // Log In dropdown (Etsy / Shopify)
+    const loginTrigger = document.getElementById('login-trigger');
+    const loginMenu = document.getElementById('login-menu');
+    if (loginTrigger && loginMenu) {
+      const dropdown = loginTrigger.closest('.login-dropdown');
+      loginTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.toggle('open');
+        loginTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove('open');
+          loginTrigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          dropdown.classList.remove('open');
+          loginTrigger.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 
