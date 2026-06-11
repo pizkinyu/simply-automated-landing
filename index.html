@@ -298,6 +298,10 @@
       padding: 4px;
     }
 
+    /* Mobile menu — hidden on all sizes by default,
+       layout/positioning rules kick in inside the mobile breakpoint. */
+    .mobile-menu { display: none; }
+
     /* ──────────────────────────────────────────────────────────────
        HERO — STAGE 1 (MASSIVE HEADLINE ONLY)
        ────────────────────────────────────────────────────────────── */
@@ -715,25 +719,18 @@
       .nav-links,
       .nav-cta { display: none; }
       .nav-hamburger { display: block; }
-    }
-
-    @media (max-width: 768px) {
-      :root { --pad-x: 22px; --nav-h: 72px; }
-      .nav-logo img { height: 36px; }
-
-      .mobile-menu {
+      .mobile-menu.open {
+        display: flex !important;
         position: fixed;
         top: var(--nav-h);
         left: 0; right: 0;
         background: var(--black);
         border-bottom: 1px solid var(--border);
         padding: 24px var(--pad-x);
-        display: none;
         flex-direction: column;
         gap: 18px;
         z-index: 99;
       }
-      .mobile-menu.open { display: flex; }
       .mobile-menu .nav-link,
       .mobile-menu .nav-login,
       .mobile-menu .nav-signup {
@@ -741,6 +738,11 @@
         text-align: center;
         font-size: 0.95rem;
       }
+    }
+
+    @media (max-width: 768px) {
+      :root { --pad-x: 22px; --nav-h: 72px; }
+      .nav-logo img { height: 36px; }
 
       #capabilities-banner {
         min-height: 360px;
